@@ -1,0 +1,265 @@
+📱 Cursor Prompt: Multilingual Advice-Giving iPhone App (Expo / React Native)
+
+Role:
+You are a senior iOS / React Native engineer building a production-ready iPhone app using Expo + React Native with TypeScript. The app should follow modern iOS UX standards, support 50 languages, and be ready for App Store deployment and Vercel (Expo Web).
+
+🧠 App Overview
+
+Build an iPhone app that provides short, thoughtful advice across different life categories (career, relationships, health, mindset, productivity, finance, creativity).
+
+Users can:
+
+Select their preferred language
+
+Choose an advice category
+
+Receive concise, meaningful advice in their selected language
+
+The app should feel fast, calm, and Apple-native, focusing on clarity, accessibility, and global usability.
+
+✅ Requirements
+
+Use Expo (React Native) with TypeScript
+
+iPhone-first design (iOS-optimized UI)
+
+Support 50 languages using internationalization (i18n)
+
+Language selection persisted locally
+
+Functional components with React hooks
+
+Clean, scalable folder structure
+
+Environment variable support
+
+App Store–ready configuration
+
+Compatible with Vercel deployment (Expo Web)
+
+✨ Features
+Core Features
+
+Language selection screen (50 languages)
+
+Advice categories:
+
+Life
+
+Career
+
+Relationships
+
+Mental Health
+
+Productivity
+
+Finance
+
+Creativity
+
+Fetch advice dynamically based on:
+
+Selected category
+
+Selected language
+
+One-tap refresh for new advice
+
+Save favorite advice locally (AsyncStorage)
+
+Optional Enhancements
+
+Daily advice notifications
+
+Dark mode support
+
+Offline fallback advice
+
+Share advice (native iOS share sheet)
+
+🌐 API
+
+Use an open advice or quote API, combined with translation support, such as:
+
+Advice Slip API (English base)
+
+Custom backend or serverless function for translations
+
+OR static multilingual JSON datasets
+
+API Expectations
+
+Endpoint returns advice text
+
+Language parameter supported or translated server-side
+
+Graceful handling of loading, errors, and retries
+
+API keys stored securely in environment variables
+
+🌍 Supported Languages (50)
+
+Must include English, Spanish, French, plus the most widely spoken languages worldwide:
+
+English
+
+Spanish
+
+French
+
+Mandarin Chinese
+
+Hindi
+
+Arabic
+
+Bengali
+
+Portuguese
+
+Russian
+
+Urdu
+
+Indonesian
+
+German
+
+Japanese
+
+Swahili
+
+Marathi
+
+Telugu
+
+Turkish
+
+Tamil
+
+Vietnamese
+
+Korean
+
+Italian
+
+Thai
+
+Gujarati
+
+Persian (Farsi)
+
+Polish
+
+Ukrainian
+
+Dutch
+
+Romanian
+
+Greek
+
+Czech
+
+Hungarian
+
+Swedish
+
+Norwegian
+
+Danish
+
+Finnish
+
+Hebrew
+
+Malay
+
+Filipino (Tagalog)
+
+Punjabi
+
+Kannada
+
+Malayalam
+
+Sinhala
+
+Burmese
+
+Khmer
+
+Lao
+
+Nepali
+
+Amharic
+
+Zulu
+
+Afrikaans
+
+Hausa
+
+🎨 Styling & UI
+
+iOS-first, minimal design
+
+Clean typography using system fonts (San Francisco)
+
+Soft gradients or neutral backgrounds
+
+Smooth animations and transitions
+
+Rounded cards for advice content
+
+Full support for:
+
+Light mode
+
+Dark mode
+
+RTL layout support (Arabic, Hebrew)
+
+🚀 Deployment Readiness
+
+App runs via npx expo start
+
+Expo config ready for:
+
+iOS builds
+
+Expo Web (Vercel)
+
+Environment variables documented
+
+No hardcoded secrets
+
+Clear instructions for:
+
+Local development
+
+Production builds
+
+Vercel deployment steps
+
+📦 Output Expectations
+
+Provide:
+
+Recommended project folder structure
+
+Language and i18n setup
+
+Key screens and components
+
+Example advice API service
+
+Example environment variable usage
+
+Expo configuration for iOS & Web
+
+Clear inline comments explaining decisions
+
+Deliver clean, scalable, production-quality code with strong iOS UX standards and global accessibility best practices.
