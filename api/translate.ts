@@ -15,35 +15,37 @@ type TranslateRequestBody = {
  * - Set `LIBRETRANSLATE_URL` to your own hosted LibreTranslate instance (or a paid provider).
  * - If your instance requires a key, set `LIBRETRANSLATE_API_KEY` (server-side only).
  */
-export default async function handler(req: Request): Promise<Response> {
+export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
-    return new Response('Method Not Allowed', { status: 405 });
+    res.status(405).send('Method Not Allowed');
+    return;
   }
 
-  let body: TranslateRequestBody = {};
-  try {
-    body = (await req.json()) as TranslateRequestBody;
-  } catch {
-    // ignore
-  }
+  const body: TranslateRequestBody =
+    typeof req.body === 'string'
+      ? (() => {
+          try {
+            return JSON.parse(req.body) as TranslateRequestBody;
+          } catch {
+            return {};
+          }
+        })()
+      : (req.body ?? {});
 
   const text = body.text?.trim();
   const target = body.targetLanguage?.trim();
   const source = body.sourceLanguage?.trim() ?? 'en';
 
-  if (!text || !target) {
-    return Response.json({ translatedText: text ?? '' }, { status: 200 });
-  }
-
-  if (source === target) {
-    return Response.json({ translatedText: text }, { status: 200 });
+  if (!text || !target || source === target) {
+    res.status(200).json({ translatedText: text ?? '' });
+    return;
   }
 
   const url = process.env.LIBRETRANSLATE_URL ?? 'https://libretranslate.de/translate';
   const apiKey = process.env.LIBRETRANSLATE_API_KEY;
 
   try {
-    const res = await fetch(url, {
+    const upstream = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({
@@ -55,14 +57,15 @@ export default async function handler(req: Request): Promise<Response> {
       }),
     });
 
-    if (!res.ok) {
-      return Response.json({ translatedText: text }, { status: 200 });
+    if (!upstream.ok) {
+      res.status(200).json({ translatedText: text });
+      return;
     }
 
-    const json = (await res.json()) as { translatedText?: string };
-    return Response.json({ translatedText: json.translatedText ?? text }, { status: 200 });
+    const json = (await upstream.json()) as { translatedText?: string };
+    res.status(200).json({ translatedText: json.translatedText ?? text });
   } catch {
-    return Response.json({ translatedText: text }, { status: 200 });
+    res.status(200).json({ translatedText: text });
   }
 }
 
