@@ -27,3 +27,7 @@ export function initI18n(initialLanguage?: string) {
 
 export default i18n;
 
+// Ensure i18n is initialized synchronously with a safe default so hooks like
+// useTranslation() never run before initialization.
+initI18n(DEFAULT_LANGUAGE);
+
