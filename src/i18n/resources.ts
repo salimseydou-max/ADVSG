@@ -1,7 +1,7 @@
 export type I18nResources = Record<
   string,
   {
-    translation: Record<string, string>;
+    translation: Record<string, any>;
   }
 >;
 
@@ -29,6 +29,15 @@ export const resources: I18nResources = {
       tryAgain: 'Try again',
       offlineFallback: 'Offline fallback',
       translationUnavailable: 'Translation unavailable — showing English.',
+      categories: {
+        life: 'Life',
+        career: 'Career',
+        relationships: 'Relationships',
+        mental_health: 'Mental Health',
+        productivity: 'Productivity',
+        finance: 'Finance',
+        creativity: 'Creativity',
+      },
     },
   },
   es: {
@@ -49,6 +58,15 @@ export const resources: I18nResources = {
       tryAgain: 'Intentar de nuevo',
       offlineFallback: 'Sin conexión',
       translationUnavailable: 'Traducción no disponible — se muestra en inglés.',
+      categories: {
+        life: 'Vida',
+        career: 'Carrera',
+        relationships: 'Relaciones',
+        mental_health: 'Salud mental',
+        productivity: 'Productividad',
+        finance: 'Finanzas',
+        creativity: 'Creatividad',
+      },
     },
   },
   fr: {
@@ -69,6 +87,15 @@ export const resources: I18nResources = {
       tryAgain: 'Réessayer',
       offlineFallback: 'Hors ligne',
       translationUnavailable: "Traduction indisponible — affichage en anglais.",
+      categories: {
+        life: 'Vie',
+        career: 'Carrière',
+        relationships: 'Relations',
+        mental_health: 'Santé mentale',
+        productivity: 'Productivité',
+        finance: 'Finances',
+        creativity: 'Créativité',
+      },
     },
   },
   ar: {
@@ -89,6 +116,15 @@ export const resources: I18nResources = {
       tryAgain: 'حاول مرة أخرى',
       offlineFallback: 'غير متصل',
       translationUnavailable: 'الترجمة غير متاحة — سيتم عرض الإنجليزية.',
+      categories: {
+        life: 'الحياة',
+        career: 'المهنة',
+        relationships: 'العلاقات',
+        mental_health: 'الصحة النفسية',
+        productivity: 'الإنتاجية',
+        finance: 'المال',
+        creativity: 'الإبداع',
+      },
     },
   },
 };

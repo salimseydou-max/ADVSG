@@ -12,11 +12,13 @@ import { fetchAdviceSlipForCategory } from '../src/services/adviceSlip';
 import { getOfflineAdvice } from '../src/services/offlineAdvice';
 import { translateText } from '../src/services/translate';
 import { getFavorites, removeFavorite, saveFavorite } from '../src/storage/favorites';
+import { useTheme } from '../src/theme/useTheme';
 
 export default function HomeScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const { language } = useAppSettings();
+  const theme = useTheme();
 
   const [category, setCategory] = React.useState<AdviceCategory>('life');
   const [advice, setAdvice] = React.useState<AdviceItem | null>(null);
@@ -103,15 +105,19 @@ export default function HomeScreen() {
   }, [advice, isFavorited]);
 
   return (
-    <LinearGradient colors={['#F7F7FA', '#FFFFFF']} style={styles.container}>
+    <LinearGradient colors={[theme.colors.bgStart, theme.colors.bgEnd]} style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>{t('appName')}</Text>
+        <Text style={[styles.title, { color: theme.colors.text }]}>{t('appName')}</Text>
         <Pressable
           onPress={() => router.push('/language')}
           accessibilityRole="button"
-          style={({ pressed }) => [styles.headerButton, pressed && { opacity: 0.8 }]}
+          style={({ pressed }) => [
+            styles.headerButton,
+            { backgroundColor: theme.colors.card, borderColor: theme.colors.border },
+            pressed && { opacity: 0.8 },
+          ]}
         >
-          <Text style={styles.headerButtonText}>{t('language')}</Text>
+          <Text style={[styles.headerButtonText, { color: theme.colors.text }]}>{t('language')}</Text>
         </Pressable>
       </View>
 
@@ -126,36 +132,46 @@ export default function HomeScreen() {
               accessibilityState={{ selected }}
               style={({ pressed }) => [
                 styles.pill,
-                selected && styles.pillSelected,
+                {
+                  backgroundColor: selected ? theme.colors.primaryTint : theme.colors.card,
+                  borderColor: theme.colors.border,
+                },
                 pressed && { opacity: 0.85 },
               ]}
             >
-              <Text style={[styles.pillText, selected && styles.pillTextSelected]}>{c.labelKey}</Text>
+              <Text
+                style={[
+                  styles.pillText,
+                  { color: selected ? theme.colors.primary : theme.colors.text },
+                ]}
+              >
+                {t(c.i18nKey)}
+              </Text>
             </Pressable>
           );
         })}
       </View>
 
-      <View style={styles.card}>
+      <View style={[styles.card, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
         {isLoading ? (
           <View style={styles.center}>
             <ActivityIndicator />
-            <Text style={styles.meta}>{t('loading')}</Text>
+            <Text style={[styles.meta, { color: theme.colors.muted }]}>{t('loading')}</Text>
           </View>
         ) : error ? (
           <View style={styles.center}>
-            <Text style={styles.errorTitle}>{t('errorTitle')}</Text>
-            <Pressable onPress={loadAdvice} style={styles.primaryButton}>
+            <Text style={[styles.errorTitle, { color: theme.colors.text }]}>{t('errorTitle')}</Text>
+            <Pressable onPress={loadAdvice} style={[styles.primaryButton, { backgroundColor: theme.colors.primary }]}>
               <Text style={styles.primaryButtonText}>{t('tryAgain')}</Text>
             </Pressable>
           </View>
         ) : (
           <>
-            <Text style={styles.adviceText}>{advice?.text ?? ''}</Text>
+            <Text style={[styles.adviceText, { color: theme.colors.text }]}>{advice?.text ?? ''}</Text>
             <View style={styles.metaRow}>
-              {isOffline ? <Text style={styles.meta}>{t('offlineFallback')}</Text> : null}
+              {isOffline ? <Text style={[styles.meta, { color: theme.colors.muted }]}>{t('offlineFallback')}</Text> : null}
               {!didTranslate && language !== 'en' ? (
-                <Text style={styles.meta}>{t('translationUnavailable')}</Text>
+                <Text style={[styles.meta, { color: theme.colors.muted }]}>{t('translationUnavailable')}</Text>
               ) : null}
             </View>
           </>
@@ -163,18 +179,35 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.actions}>
-        <Pressable onPress={loadAdvice} style={styles.primaryButton} accessibilityRole="button">
+        <Pressable
+          onPress={loadAdvice}
+          style={[styles.primaryButton, { backgroundColor: theme.colors.primary }]}
+          accessibilityRole="button"
+        >
           <Text style={styles.primaryButtonText}>{t('refresh')}</Text>
         </Pressable>
-        <Pressable onPress={onToggleFavorite} style={styles.secondaryButton} accessibilityRole="button">
-          <Text style={styles.secondaryButtonText}>{isFavorited ? t('favorited') : t('favorite')}</Text>
+        <Pressable
+          onPress={onToggleFavorite}
+          style={[styles.secondaryButton, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}
+          accessibilityRole="button"
+        >
+          <Text style={[styles.secondaryButtonText, { color: theme.colors.text }]}>
+            {isFavorited ? t('favorited') : t('favorite')}
+          </Text>
         </Pressable>
-        <Pressable onPress={onShare} style={styles.secondaryButton} accessibilityRole="button">
-          <Text style={styles.secondaryButtonText}>{t('share')}</Text>
+        <Pressable
+          onPress={onShare}
+          style={[styles.secondaryButton, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}
+          accessibilityRole="button"
+        >
+          <Text style={[styles.secondaryButtonText, { color: theme.colors.text }]}>{t('share')}</Text>
         </Pressable>
         <Link href="/favorites" asChild>
-          <Pressable style={styles.secondaryButton} accessibilityRole="button">
-            <Text style={styles.secondaryButtonText}>{t('favorites')}</Text>
+          <Pressable
+            style={[styles.secondaryButton, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}
+            accessibilityRole="button"
+          >
+            <Text style={[styles.secondaryButtonText, { color: theme.colors.text }]}>{t('favorites')}</Text>
           </Pressable>
         </Link>
       </View>
@@ -190,7 +223,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 12,
-    backgroundColor: 'rgba(118,118,128,0.12)',
+    borderWidth: StyleSheet.hairlineWidth,
   },
   headerButtonText: { fontSize: 14, fontWeight: '600' },
   pills: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 14 },
@@ -198,22 +231,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 999,
-    backgroundColor: 'rgba(118,118,128,0.10)',
+    borderWidth: StyleSheet.hairlineWidth,
   },
-  pillSelected: { backgroundColor: 'rgba(0,122,255,0.14)' },
-  pillText: { fontSize: 13, fontWeight: '600', opacity: 0.85 },
-  pillTextSelected: { color: '#007AFF', opacity: 1 },
+  pillText: { fontSize: 13, fontWeight: '700', opacity: 0.92 },
   card: {
     borderRadius: 20,
     padding: 18,
-    backgroundColor: 'rgba(255,255,255,0.85)',
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'rgba(60,60,67,0.16)',
     minHeight: 220,
   },
   adviceText: { fontSize: 20, lineHeight: 28, fontWeight: '600', letterSpacing: -0.2 },
   metaRow: { marginTop: 12, gap: 6 },
-  meta: { fontSize: 13, opacity: 0.6 },
+  meta: { fontSize: 13 },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: 10 },
   errorTitle: { fontSize: 16, fontWeight: '700', marginBottom: 8 },
   actions: { flexDirection: 'row', gap: 10, marginTop: 14, alignItems: 'center' },
@@ -221,7 +250,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 12,
     borderRadius: 14,
-    backgroundColor: '#007AFF',
     alignItems: 'center',
   },
   primaryButtonText: { color: 'white', fontWeight: '700', fontSize: 15 },
@@ -229,7 +257,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 14,
     borderRadius: 14,
-    backgroundColor: 'rgba(118,118,128,0.12)',
+    borderWidth: StyleSheet.hairlineWidth,
   },
   secondaryButtonText: { fontWeight: '700', fontSize: 14 },
 });

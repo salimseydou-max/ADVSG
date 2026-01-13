@@ -7,14 +7,14 @@ export type AdviceCategory =
   | 'finance'
   | 'creativity';
 
-export const ADVICE_CATEGORIES: { key: AdviceCategory; labelKey: string }[] = [
-  { key: 'life', labelKey: 'Life' },
-  { key: 'career', labelKey: 'Career' },
-  { key: 'relationships', labelKey: 'Relationships' },
-  { key: 'mental_health', labelKey: 'Mental Health' },
-  { key: 'productivity', labelKey: 'Productivity' },
-  { key: 'finance', labelKey: 'Finance' },
-  { key: 'creativity', labelKey: 'Creativity' },
+export const ADVICE_CATEGORIES: { key: AdviceCategory; i18nKey: string }[] = [
+  { key: 'life', i18nKey: 'categories.life' },
+  { key: 'career', i18nKey: 'categories.career' },
+  { key: 'relationships', i18nKey: 'categories.relationships' },
+  { key: 'mental_health', i18nKey: 'categories.mental_health' },
+  { key: 'productivity', i18nKey: 'categories.productivity' },
+  { key: 'finance', i18nKey: 'categories.finance' },
+  { key: 'creativity', i18nKey: 'categories.creativity' },
 ];
 
 // Advice Slip API isn't category-aware, but its search endpoint works well with keywords.

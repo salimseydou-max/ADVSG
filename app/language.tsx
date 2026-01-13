@@ -3,10 +3,12 @@ import { View, Text, TextInput, FlatList, Pressable, StyleSheet } from 'react-na
 import { useTranslation } from 'react-i18next';
 import { SUPPORTED_LANGUAGES } from '../src/constants/languages';
 import { useAppSettings } from '../src/context/AppSettingsContext';
+import { useTheme } from '../src/theme/useTheme';
 
 export default function LanguageScreen() {
   const { t } = useTranslation();
   const { language, setLanguage } = useAppSettings();
+  const theme = useTheme();
   const [query, setQuery] = React.useState('');
 
   const data = React.useMemo(() => {
@@ -19,13 +21,13 @@ export default function LanguageScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{t('chooseLanguage')}</Text>
+      <Text style={[styles.title, { color: theme.colors.text }]}>{t('chooseLanguage')}</Text>
       <TextInput
         value={query}
         onChangeText={setQuery}
         placeholder={t('searchLanguage')}
-        placeholderTextColor="rgba(60,60,67,0.45)"
-        style={styles.search}
+        placeholderTextColor={theme.colors.muted}
+        style={[styles.search, { backgroundColor: theme.colors.card, color: theme.colors.text, borderColor: theme.colors.border }]}
         autoCapitalize="none"
         autoCorrect={false}
         accessibilityLabel={t('searchLanguage')}
@@ -44,17 +46,21 @@ export default function LanguageScreen() {
               accessibilityState={{ selected }}
               style={({ pressed }) => [
                 styles.row,
-                selected && styles.rowSelected,
+                {
+                  backgroundColor: selected ? theme.colors.primaryTint : theme.colors.card,
+                  borderColor: theme.colors.border,
+                },
                 pressed && { opacity: 0.8 },
               ]}
             >
               <View style={{ flex: 1 }}>
-                <Text style={styles.rowTitle}>
-                  {item.nativeName} <Text style={styles.rowMeta}>({item.name})</Text>
+                <Text style={[styles.rowTitle, { color: theme.colors.text }]}>
+                  {item.nativeName}{' '}
+                  <Text style={[styles.rowMeta, { color: theme.colors.subtext }]}>({item.name})</Text>
                 </Text>
-                <Text style={styles.rowCode}>{item.code.toUpperCase()}</Text>
+                <Text style={[styles.rowCode, { color: theme.colors.muted }]}>{item.code.toUpperCase()}</Text>
               </View>
-              {selected ? <Text style={styles.check}>✓</Text> : null}
+              {selected ? <Text style={[styles.check, { color: theme.colors.primary }]}>✓</Text> : null}
             </Pressable>
           );
         }}
@@ -70,7 +76,7 @@ const styles = StyleSheet.create({
     height: 44,
     borderRadius: 12,
     paddingHorizontal: 12,
-    backgroundColor: 'rgba(118,118,128,0.12)',
+    borderWidth: StyleSheet.hairlineWidth,
     marginBottom: 12,
     fontSize: 16,
   },
@@ -78,15 +84,14 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 12,
     borderRadius: 14,
-    backgroundColor: 'rgba(118,118,128,0.08)',
     marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    borderWidth: StyleSheet.hairlineWidth,
   },
-  rowSelected: { backgroundColor: 'rgba(0,122,255,0.12)' },
   rowTitle: { fontSize: 16, fontWeight: '600' },
-  rowMeta: { fontSize: 14, fontWeight: '400', opacity: 0.7 },
-  rowCode: { marginTop: 3, fontSize: 12, opacity: 0.6 },
-  check: { fontSize: 18, fontWeight: '700', color: '#007AFF' },
+  rowMeta: { fontSize: 14, fontWeight: '400' },
+  rowCode: { marginTop: 3, fontSize: 12 },
+  check: { fontSize: 18, fontWeight: '700' },
 });
 
